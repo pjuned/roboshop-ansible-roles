@@ -3,20 +3,20 @@
       src: mongodb.repo
       dest: /etc/yum.repos.d/mongodb.repo
 
-  - name: Install mongodb client
-    ansible.builtin.package:
+- name: Install mongodb client
+  ansible.builtin.package:
       name: mongodb-org-shell
       state: present
 
-  - name: get the catalogue entries count
-    ansible.builtin.command:  mongo --host mongodb.daws76s.online --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
-    register: product_count
-    when component == "catalogue"
+- name: get the catalogue entries count
+  ansible.builtin.command:  mongo --host mongodb.daws76s.online --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+  register: product_count
+  when component == "catalogue"
 
-  - name: "get the user entries count"
-    ansible.builtin.shell:  mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
-    register: users_count
-    when: component == "user"
+- name: "get the user entries count"
+  ansible.builtin.shell:  mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+  register: users_count
+  when: component == "user"
 
 
   # - name: print the count
